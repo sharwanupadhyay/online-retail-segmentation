@@ -1,0 +1,34 @@
+{
+  "numeric_tokens_checked": {
+    "report": 219,
+    "script": 35,
+    "README.md": 30,
+    "docs\\requirements_checklist.md": 13,
+    "PROGRESS.md": 0,
+    "outputs\\docs\\Assumptions_and_Limitations.md": 10,
+    "outputs\\docs\\Dataset_Source_Documentation.md": 75,
+    "outputs\\docs\\requirements_checklist.md": 13,
+    "outputs\\docs\\Verification.md": 4
+  },
+  "report_words": 2480,
+  "script_words": 681,
+  "figures": {
+    "fig1_monthly_revenue": true,
+    "fig2_products": true,
+    "fig3_countries": true,
+    "fig4_cancellations": true,
+    "feature_correlations": true,
+    "fig5_transformations": true,
+    "fig6_selection": true,
+    "fig7_pca": true,
+    "fig8_profiles": true
+  },
+  "notebook_executed": true,
+  "syntax_complete": true,
+  "feature_agreement": true,
+  "segment_names_and_actions_agree": true,
+  "cancellation_conservation": true,
+  "clean_rebuild": true,
+  "tests_passed": 7,
+  "visual_review_verified": true
+}

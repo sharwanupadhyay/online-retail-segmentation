@@ -1,0 +1,8 @@
+before,removed,after,reason
+1067371,34335,1033036,"Remove exact duplicate rows across both sheets, including their overlapping dates; no fuzzy deduplication."
+1033036,5581,1027455,"Remove only original non-product code list, after uppercase and whitespace normalisation; fixed-list regression passed."
+1027455,237,1027218,"Extend exclusions only with documented fee, sample and gift-voucher codes; evidence is in non_product_evidence.csv."
+1027218,17914,1009304,Separate all cancellation-invoice rows into a retained cancellation table; these are not booked as sales.
+1009304,5964,1003340,Remove non-cancellation rows with nonpositive quantity or price; no price imputation.
+1003340,226761,776579,Exclude missing-ID positive purchase rows from linked customer analysis; their gross merchandise value and coverage loss are reported separately.
+776579,6026,770553,Drop fully reversed purchase lines after chronological customer/product LIFO matching; partly reversed lines retain remaining units at original purchase prices. Unmatched cancellation units remain outside net sales.

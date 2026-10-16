@@ -1,0 +1,29 @@
+{
+  "0": {
+    "name": "Loyal champions",
+    "action": "Offer early access to relevant products and test a replenishment reminder against a holdout group.",
+    "tags": {
+      "recency": "low",
+      "frequency": "high",
+      "monetary": "high"
+    }
+  },
+  "1": {
+    "name": "Dormant occasional buyers",
+    "action": "Test a low-cost reminder using their last product category before committing a wider recovery budget.",
+    "tags": {
+      "recency": "high",
+      "frequency": "low",
+      "monetary": "low"
+    }
+  },
+  "Outlier-Wholesale": {
+    "name": "Outlier-Wholesale",
+    "action": "Review major accounts individually, confirm buyer needs and set stock reservations against their observed repeat orders.",
+    "tags": {
+      "recency": "low",
+      "frequency": "high",
+      "monetary": "high"
+    }
+  }
+}

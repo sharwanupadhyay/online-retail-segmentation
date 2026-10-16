@@ -1,0 +1,2125 @@
+{
+  "source": {
+    "file": "online_retail_II.xlsx",
+    "access_date": "2026-10-16",
+    "url": "https://archive.ics.uci.edu/dataset/502/online+retail+ii",
+    "reader": "pandas calamine engine",
+    "rows": 1067371,
+    "columns": 8,
+    "start": "2009-12-01 07:45:00",
+    "end": "2011-12-09 12:50:00",
+    "overlap_start": "2010-12-01 08:26:00",
+    "overlap_end": "2010-12-09 20:01:00"
+  },
+  "sheets": {
+    "Year 2009-2010": {
+      "shape": [
+        525461,
+        8
+      ],
+      "dtypes": {
+        "Invoice": "object",
+        "StockCode": "object",
+        "Description": "object",
+        "Quantity": "int64",
+        "InvoiceDate": "datetime64[us]",
+        "Price": "float64",
+        "Customer ID": "float64",
+        "Country": "str"
+      },
+      "nulls": {
+        "Invoice": 0,
+        "StockCode": 0,
+        "Description": 2928,
+        "Quantity": 0,
+        "InvoiceDate": 0,
+        "Price": 0,
+        "Customer ID": 107927,
+        "Country": 0
+      },
+      "start": "2009-12-01 07:45:00",
+      "end": "2010-12-09 20:01:00"
+    },
+    "Year 2010-2011": {
+      "shape": [
+        541910,
+        8
+      ],
+      "dtypes": {
+        "Invoice": "object",
+        "StockCode": "object",
+        "Description": "object",
+        "Quantity": "int64",
+        "InvoiceDate": "datetime64[us]",
+        "Price": "float64",
+        "Customer ID": "float64",
+        "Country": "str"
+      },
+      "nulls": {
+        "Invoice": 0,
+        "StockCode": 0,
+        "Description": 1454,
+        "Quantity": 0,
+        "InvoiceDate": 0,
+        "Price": 0,
+        "Customer ID": 135080,
+        "Country": 0
+      },
+      "start": "2010-12-01 08:26:00",
+      "end": "2011-12-09 12:50:00"
+    }
+  },
+  "audit": [
+    {
+      "before": 1067371,
+      "removed": 34335,
+      "after": 1033036,
+      "reason": "Remove exact duplicate rows across both sheets, including their overlapping dates; no fuzzy deduplication."
+    },
+    {
+      "before": 1033036,
+      "removed": 5581,
+      "after": 1027455,
+      "reason": "Remove only original non-product code list, after uppercase and whitespace normalisation; fixed-list regression passed."
+    },
+    {
+      "before": 1027455,
+      "removed": 237,
+      "after": 1027218,
+      "reason": "Extend exclusions only with documented fee, sample and gift-voucher codes; evidence is in non_product_evidence.csv."
+    },
+    {
+      "before": 1027218,
+      "removed": 17914,
+      "after": 1009304,
+      "reason": "Separate all cancellation-invoice rows into a retained cancellation table; these are not booked as sales."
+    },
+    {
+      "before": 1009304,
+      "removed": 5964,
+      "after": 1003340,
+      "reason": "Remove non-cancellation rows with nonpositive quantity or price; no price imputation."
+    },
+    {
+      "before": 1003340,
+      "removed": 226761,
+      "after": 776579,
+      "reason": "Exclude missing-ID positive purchase rows from linked customer analysis; their gross merchandise value and coverage loss are reported separately."
+    },
+    {
+      "before": 776579,
+      "removed": 6026,
+      "after": 770553,
+      "reason": "Drop fully reversed purchase lines after chronological customer/product LIFO matching; partly reversed lines retain remaining units at original purchase prices. Unmatched cancellation units remain outside net sales."
+    }
+  ],
+  "assignment": {
+    "weight": 20,
+    "group_size": 4,
+    "due_date": "8 October 2026",
+    "minimum_visualisations": 5,
+    "code_weight": 7,
+    "report_target": 2500,
+    "report_weight": 8,
+    "apa_edition": 7,
+    "source_weight": 2,
+    "demo_min": 5,
+    "demo_max": 7,
+    "demo_weight": 3
+  },
+  "regression": {
+    "duplicates": 34335,
+    "nonproduct": 5581,
+    "cancellations": 18046,
+    "invalid": 5986,
+    "missing_id": 226844,
+    "purchases": 776579,
+    "customers": 5852
+  },
+  "nonproduct": {
+    "original": [
+      "POST",
+      "D",
+      "M",
+      "BANK CHARGES",
+      "C2",
+      "DOT",
+      "PADS",
+      "CRUK",
+      "TEST001",
+      "TEST002",
+      "ADJUST",
+      "ADJUST2",
+      "B"
+    ],
+    "extra": [
+      "AMAZONFEE",
+      "GIFT_0001_10",
+      "GIFT_0001_20",
+      "GIFT_0001_30",
+      "GIFT_0001_40",
+      "GIFT_0001_50",
+      "GIFT_0001_60",
+      "GIFT_0001_70",
+      "GIFT_0001_80",
+      "GIFT_0001_90",
+      "S"
+    ],
+    "extra_rows": 237,
+    "evidence": [
+      {
+        "StockCode": "AMAZONFEE",
+        "rows": 36,
+        "descriptions": "AMAZON FEE",
+        "excluded": true,
+        "justification": "Amazon fee, not merchandise."
+      },
+      {
+        "StockCode": "C3",
+        "rows": 1,
+        "descriptions": "",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0003",
+        "rows": 14,
+        "descriptions": "BOXED GLASS ASHTRAY; ebay",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0004",
+        "rows": 5,
+        "descriptions": "HAYNES CAMPER SHOULDER BAG",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0006",
+        "rows": 1,
+        "descriptions": "",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0016",
+        "rows": 1,
+        "descriptions": "",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0027",
+        "rows": 1,
+        "descriptions": "",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0036",
+        "rows": 1,
+        "descriptions": "",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0037",
+        "rows": 2,
+        "descriptions": "KEY-RING CORKSCREW",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0039",
+        "rows": 1,
+        "descriptions": "",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0041",
+        "rows": 1,
+        "descriptions": "HAYNES MINI-COOPER PLAYING CARDS",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0044",
+        "rows": 1,
+        "descriptions": "HANDZ-OFF CAR FRESHENER",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0053",
+        "rows": 1,
+        "descriptions": "",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0055",
+        "rows": 1,
+        "descriptions": "",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0056",
+        "rows": 1,
+        "descriptions": "",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0057",
+        "rows": 1,
+        "descriptions": "",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0058",
+        "rows": 31,
+        "descriptions": "MISO PRETTY  GUM",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0059",
+        "rows": 1,
+        "descriptions": "",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0060",
+        "rows": 1,
+        "descriptions": "",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0062",
+        "rows": 2,
+        "descriptions": "ROAD-RAGE CAR FRESHENER",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0066N",
+        "rows": 4,
+        "descriptions": "NAVY CUDDLES DOG HOODIE",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0066P",
+        "rows": 1,
+        "descriptions": "",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0067",
+        "rows": 1,
+        "descriptions": "ebay",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0068",
+        "rows": 3,
+        "descriptions": "DOGS NIGHT COLLAR; ebay",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0069",
+        "rows": 6,
+        "descriptions": "OOH LA LA DOGS COLLAR; ebay",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0070",
+        "rows": 3,
+        "descriptions": "CAMOUFLAGE DOG COLLAR",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0071",
+        "rows": 1,
+        "descriptions": "",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0072",
+        "rows": 4,
+        "descriptions": "CAT CAMOUFLAGUE COLLAR",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0073",
+        "rows": 1,
+        "descriptions": "ebay",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0074",
+        "rows": 1,
+        "descriptions": "",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0075",
+        "rows": 1,
+        "descriptions": "CAMOUFLAGUE DOG LEAD",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGS0076",
+        "rows": 14,
+        "descriptions": "SUNJAR LED NIGHT NIGHT LIGHT",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGSLBOY",
+        "rows": 1,
+        "descriptions": "",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGSLGIRL",
+        "rows": 1,
+        "descriptions": "",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGSSBOY",
+        "rows": 23,
+        "descriptions": "update; BOYS PARTY BAG",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "DCGSSGIRL",
+        "rows": 25,
+        "descriptions": "update; GIRLS PARTY BAG",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "GIFT",
+        "rows": 1,
+        "descriptions": "",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      },
+      {
+        "StockCode": "GIFT_0001_10",
+        "rows": 16,
+        "descriptions": "Dotcomgiftshop Gift Voucher £10.00",
+        "excluded": true,
+        "justification": "Gift voucher liability, excluded from physical-merchandise sales."
+      },
+      {
+        "StockCode": "GIFT_0001_20",
+        "rows": 29,
+        "descriptions": "Dotcomgiftshop Gift Voucher £20.00; to push order througha s stock was ",
+        "excluded": true,
+        "justification": "Gift voucher liability, excluded from physical-merchandise sales."
+      },
+      {
+        "StockCode": "GIFT_0001_30",
+        "rows": 29,
+        "descriptions": "Dotcomgiftshop Gift Voucher £30.00",
+        "excluded": true,
+        "justification": "Gift voucher liability, excluded from physical-merchandise sales."
+      },
+      {
+        "StockCode": "GIFT_0001_40",
+        "rows": 7,
+        "descriptions": "Dotcomgiftshop Gift Voucher £40.00",
+        "excluded": true,
+        "justification": "Gift voucher liability, excluded from physical-merchandise sales."
+      },
+      {
+        "StockCode": "GIFT_0001_50",
+        "rows": 8,
+        "descriptions": "Dotcomgiftshop Gift Voucher £50.00",
+        "excluded": true,
+        "justification": "Gift voucher liability, excluded from physical-merchandise sales."
+      },
+      {
+        "StockCode": "GIFT_0001_60",
+        "rows": 2,
+        "descriptions": "",
+        "excluded": true,
+        "justification": "Gift voucher liability, excluded from physical-merchandise sales."
+      },
+      {
+        "StockCode": "GIFT_0001_70",
+        "rows": 3,
+        "descriptions": "Dotcomgiftshop Gift Voucher £70.00",
+        "excluded": true,
+        "justification": "Gift voucher liability, excluded from physical-merchandise sales."
+      },
+      {
+        "StockCode": "GIFT_0001_80",
+        "rows": 4,
+        "descriptions": "Dotcomgiftshop Gift Voucher £80.00",
+        "excluded": true,
+        "justification": "Gift voucher liability, excluded from physical-merchandise sales."
+      },
+      {
+        "StockCode": "GIFT_0001_90",
+        "rows": 2,
+        "descriptions": "",
+        "excluded": true,
+        "justification": "Gift voucher liability, excluded from physical-merchandise sales."
+      },
+      {
+        "StockCode": "S",
+        "rows": 101,
+        "descriptions": "SAMPLES",
+        "excluded": true,
+        "justification": "SAMPLES code: non-catalog sample/accounting lines, excluded consistently from sales and cancellations."
+      },
+      {
+        "StockCode": "SP1002",
+        "rows": 3,
+        "descriptions": "KID'S CHALKBOARD/EASEL",
+        "excluded": false,
+        "justification": "Irregular syntax alone is not evidence of a non-product; retained."
+      }
+    ]
+  },
+  "missing_id": {
+    "rows": 226761,
+    "revenue": 2575278.9,
+    "purchase_revenue_share": 0.13109840365491232,
+    "purchase_rows_share": 0.22600613949408974
+  },
+  "netting": {
+    "runtime_seconds": 12.776178999999956,
+    "cancellation_rows": 17914,
+    "matched": 15872,
+    "partly_matched": 127,
+    "unmatched": 1915,
+    "cancelled_units": 467739,
+    "reversed_units": 450047.0,
+    "unmatched_units": 17692.0,
+    "unmatched_unit_share": 0.03782451324349691,
+    "gross_revenue": 17068582.72,
+    "net_revenue": 16338578.6,
+    "reversed_revenue": 730004.1199999992,
+    "lines_dropped": 6026,
+    "lines_partly_reversed": 9677,
+    "net_lines": 770553,
+    "customers": 5839,
+    "cancellation_missing_id_rows": 328,
+    "nonnegative_cancellation_rows": 0
+  },
+  "cleaning": {
+    "purchase_invoices": 36594,
+    "net_invoices": 36316,
+    "description_nulls_retained": 0,
+    "price_matching": "Customer and product only; reverse at purchase price, not cancellation price."
+  },
+  "seasonal": {
+    "peak_months": {
+      "November 2011": 1119164.27,
+      "November 2010": 1117670.23,
+      "October 2010": 976736.35
+    },
+    "q4_mean": 898830.5966666667,
+    "rest_mean": 589039.4666666667,
+    "q4_rest_ratio": 1.5259259311656763,
+    "partial_month": "December 2011",
+    "last_date": "09 December 2011"
+  },
+  "monthly_revenue": {
+    "2009-12": 663906.11,
+    "2010-01": 526314.18,
+    "2010-02": 485783.57,
+    "2010-03": 648983.13,
+    "2010-04": 572218.57,
+    "2010-05": 570794.6,
+    "2010-06": 605621.99,
+    "2010-07": 562083.08,
+    "2010-08": 571814.76,
+    "2010-09": 784948.52,
+    "2010-10": 976736.35,
+    "2010-11": 1117670.23,
+    "2010-12": 550242.6,
+    "2011-01": 453924.63,
+    "2011-02": 435306.07,
+    "2011-03": 571220.84,
+    "2011-04": 447782.06,
+    "2011-05": 647099.92,
+    "2011-06": 600393.55,
+    "2011-07": 580684.68,
+    "2011-08": 613158.67,
+    "2011-09": 924577.58,
+    "2011-10": 965264.02,
+    "2011-11": 1119164.27,
+    "2011-12": 342884.62
+  },
+  "figures": {
+    "fig1_monthly_revenue": {
+      "title": "Figure 1. Monthly net merchandise revenue",
+      "caption": "Peak months: November 2011 (GBP 1,119,164), November 2010 (GBP 1,117,670), October 2010 (GBP 976,736). Complete-month Q4/rest mean revenue ratio: 1.53. December 2011 ends 09 December 2011. Reversals are attributed to the original sale month.",
+      "axis_limits": [
+        [
+          14540.95,
+          15378.05,
+          304070.6375,
+          1157978.2525
+        ]
+      ],
+      "dpi": 220
+    },
+    "fig2_products": {
+      "title": "Figure 2. Products ranked separately by each measure",
+      "caption": "revenue leader: REGENCY CAKESTAND 3 TIER (22423), 261,233 GBP; units leader: WORLD WAR 2 GLIDERS ASSTD DESIGNS (84077), 103,697 units; customers leader: WHITE HANGING HEART T-LIGHT HOLDER (85123A), 1,484 customers. The leaders differ. Each row shows its customer count; full names are in product_summary.csv.",
+      "axis_limits": [
+        [
+          0.0,
+          274294.3875,
+          -0.8900000000000001,
+          9.89
+        ],
+        [
+          0.0,
+          108881.85,
+          -0.8900000000000001,
+          9.89
+        ],
+        [
+          0.0,
+          1558.2,
+          -0.8900000000000001,
+          9.89
+        ]
+      ],
+      "dpi": 220
+    },
+    "fig3_countries": {
+      "title": "Figure 3. Highest-revenue export countries (United Kingdom excluded)",
+      "caption": "EIRE leads exports: GBP 567,786, 3 customers. Netherlands has the largest AOV in this group: GBP 2,538.50, 1,774.2 units/order, 22 customers; UK: GBP 411.79, 247.3 units/order. Basket size and customer-base size are descriptive, not proof of buyer type.",
+      "axis_limits": [
+        [
+          0.0,
+          596175.0375,
+          -0.8900000000000001,
+          9.89
+        ],
+        [
+          0.0,
+          112.35,
+          -0.8900000000000001,
+          9.89
+        ],
+        [
+          0.0,
+          2665.4273441860464,
+          -0.8900000000000001,
+          9.89
+        ],
+        [
+          0.0,
+          198725.01249999998,
+          -0.8900000000000001,
+          9.89
+        ]
+      ],
+      "dpi": 220
+    },
+    "fig4_cancellations": {
+      "title": "Figure 4. Cancellation invoices and invoice rate",
+      "caption": "Complete-month mean invoice cancellation rate: Q4 16.21%; non-Q4 17.03%. No descriptive Q4 elevation is observed. Both invoice counts use identified customers and merchandise codes; gross purchase invoices precede netting. Final month is partial.",
+      "axis_limits": [
+        [
+          14530.45,
+          15378.550000000001,
+          0.0,
+          561.75
+        ],
+        [
+          14530.45,
+          15378.550000000001,
+          12.449520299639742,
+          22.173657617885215
+        ]
+      ],
+      "dpi": 220
+    },
+    "feature_correlations": {
+      "title": "Customer feature Pearson correlations (raw scale)",
+      "caption": "AOV = Monetary / Frequency. Monetary-Frequency correlation: 0.624. Correlation is descriptive and does not establish causality.",
+      "axis_limits": [
+        [
+          0.0,
+          6.0,
+          6.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          -1.0,
+          1.0
+        ]
+      ],
+      "dpi": 220
+    },
+    "fig5_transformations": {
+      "title": "Figure 5. Raw and log-transformed customer features",
+      "caption": "Absolute skew decreases for Recency, Frequency, Monetary, AOV, Variety, CancellationRate. CancellationRate is zero for 58.8% of customers; skew 1.32 to 1.14. Histograms include outliers; model fitting excludes the upper log-Monetary fence.",
+      "axis_limits": [
+        [
+          -35.900000000000006,
+          775.8999999999999,
+          0.0,
+          2005.5
+        ],
+        [
+          0.3974720302780318,
+          6.9023253364801285,
+          0.0,
+          678.3
+        ],
+        [
+          -17.45,
+          388.45,
+          0.0,
+          1694.7
+        ],
+        [
+          0.4319944364575708,
+          6.177354806709809,
+          0.0,
+          1694.7
+        ],
+        [
+          -28917.387,
+          607328.927,
+          0.0,
+          1013.25
+        ],
+        [
+          0.7656234999746568,
+          13.863390669515415,
+          0.0,
+          385.35
+        ],
+        [
+          -618.2275000000001,
+          13046.577500000001,
+          0.0,
+          452.55
+        ],
+        [
+          0.9576462535745258,
+          9.83091284391817,
+          0.0,
+          394.8
+        ],
+        [
+          -124.20000000000003,
+          2630.2000000000003,
+          0.0,
+          864.15
+        ],
+        [
+          0.33648238281514176,
+          8.183107933200816,
+          0.0,
+          408.45
+        ],
+        [
+          -0.04000000000000001,
+          0.8400000000000001,
+          0.0,
+          3605.7
+        ],
+        [
+          -0.029389333245105946,
+          0.6171759981472249,
+          0.0,
+          3605.7
+        ]
+      ],
+      "dpi": 220
+    },
+    "fig6_selection": {
+      "title": "Figure 6. Feature-set and cluster-count comparison",
+      "caption": "Selected rfm, k=2 by highest silhouette 0.438; Davies-Bouldin 0.873; mean pairwise seed ARI 0.999. Metrics describe this sample; they do not prove future usefulness.",
+      "axis_limits": [
+        [
+          1.6,
+          10.4,
+          1921.8880299002951,
+          12173.596562678686
+        ],
+        [
+          1.6,
+          10.4,
+          0.23190770167870894,
+          0.44760157825266955
+        ],
+        [
+          1.6,
+          10.4,
+          0.8585766075035758,
+          1.179502292601421
+        ]
+      ],
+      "dpi": 220
+    },
+    "fig7_pca": {
+      "title": "Figure 7. PCA view of fitted customers",
+      "caption": "PCA displays 94.8% of transformed feature variance. Colours are pipeline predictions. Projection overlap is not a separate clustering evaluation; outliers were excluded from fitting.",
+      "axis_limits": [
+        [
+          -4.282865938071856,
+          6.2592597415230165,
+          -2.9600873830190677,
+          3.02648339408525
+        ]
+      ],
+      "dpi": 220
+    },
+    "fig8_profiles": {
+      "title": "Figure 8. Segment means relative to all customers",
+      "caption": "Profiles cover 5,839 customers and 3 groups including Outlier-Wholesale. Cells standardise raw segment means using the all-customer mean and standard deviation; the outlier label does not establish a wholesale business model.",
+      "axis_limits": [
+        [
+          0.0,
+          6.0,
+          3.0,
+          0.0
+        ],
+        [
+          0.0,
+          1.0,
+          -0.8061455284928851,
+          7.937928470277407
+        ]
+      ],
+      "dpi": 220
+    }
+  },
+  "products": {
+    "leaders": {
+      "revenue": {
+        "StockCode": "22423",
+        "revenue": 261232.75,
+        "units": 22682.0,
+        "customers": 1297,
+        "orders": 3239,
+        "description": "REGENCY CAKESTAND 3 TIER",
+        "value_per_order": 80.65228465575795,
+        "repeat_customers": 575,
+        "repeat_customer_share": 0.4433307632999229
+      },
+      "units": {
+        "StockCode": "84077",
+        "revenue": 23766.35,
+        "units": 103697.0,
+        "customers": 479,
+        "orders": 914,
+        "description": "WORLD WAR 2 GLIDERS ASSTD DESIGNS",
+        "value_per_order": 26.00257111597374,
+        "repeat_customers": 165,
+        "repeat_customer_share": 0.3444676409185804
+      },
+      "customers": {
+        "StockCode": "85123A",
+        "revenue": 237912.06,
+        "units": 88208.0,
+        "customers": 1484,
+        "orders": 4873,
+        "description": "WHITE HANGING HEART T-LIGHT HOLDER",
+        "value_per_order": 48.82250359121691,
+        "repeat_customers": 824,
+        "repeat_customer_share": 0.555256064690027
+      }
+    },
+    "same_leader": false
+  },
+  "countries": {
+    "all": [
+      {
+        "Country": "Australia",
+        "revenue": 166528.5,
+        "customers": 15,
+        "orders": 86,
+        "units": 103174.0,
+        "AOV": 1936.3779069767443,
+        "revenue_per_customer": 11101.9,
+        "units_per_order": 1199.6976744186047,
+        "orders_per_customer": 5.733333333333333
+      },
+      {
+        "Country": "Austria",
+        "revenue": 20074.1,
+        "customers": 13,
+        "orders": 39,
+        "units": 11230.0,
+        "AOV": 514.7205128205128,
+        "revenue_per_customer": 1544.1615384615384,
+        "units_per_order": 287.94871794871796,
+        "orders_per_customer": 3.0
+      },
+      {
+        "Country": "Bahrain",
+        "revenue": 1354.37,
+        "customers": 2,
+        "orders": 4,
+        "units": 755.0,
+        "AOV": 338.5925,
+        "revenue_per_customer": 677.185,
+        "units_per_order": 188.75,
+        "orders_per_customer": 2.0
+      },
+      {
+        "Country": "Belgium",
+        "revenue": 56608.97,
+        "customers": 29,
+        "orders": 143,
+        "units": 34189.0,
+        "AOV": 395.86692307692306,
+        "revenue_per_customer": 1952.0334482758622,
+        "units_per_order": 239.08391608391608,
+        "orders_per_customer": 4.931034482758621
+      },
+      {
+        "Country": "Brazil",
+        "revenue": 1411.87,
+        "customers": 2,
+        "orders": 2,
+        "units": 545.0,
+        "AOV": 705.935,
+        "revenue_per_customer": 705.935,
+        "units_per_order": 272.5,
+        "orders_per_customer": 1.0
+      },
+      {
+        "Country": "Canada",
+        "revenue": 4332.1,
+        "customers": 5,
+        "orders": 7,
+        "units": 3656.0,
+        "AOV": 618.8714285714286,
+        "revenue_per_customer": 866.4200000000001,
+        "units_per_order": 522.2857142857143,
+        "orders_per_customer": 1.4
+      },
+      {
+        "Country": "Channel Islands",
+        "revenue": 41871.24,
+        "customers": 13,
+        "orders": 51,
+        "units": 20389.0,
+        "AOV": 821.0047058823529,
+        "revenue_per_customer": 3220.8646153846153,
+        "units_per_order": 399.7843137254902,
+        "orders_per_customer": 3.923076923076923
+      },
+      {
+        "Country": "Cyprus",
+        "revenue": 23945.06,
+        "customers": 11,
+        "orders": 34,
+        "units": 10649.0,
+        "AOV": 704.2664705882353,
+        "revenue_per_customer": 2176.8236363636365,
+        "units_per_order": 313.20588235294116,
+        "orders_per_customer": 3.090909090909091
+      },
+      {
+        "Country": "Czech Republic",
+        "revenue": 707.48,
+        "customers": 1,
+        "orders": 2,
+        "units": 616.0,
+        "AOV": 353.74,
+        "revenue_per_customer": 707.48,
+        "units_per_order": 308.0,
+        "orders_per_customer": 2.0
+      },
+      {
+        "Country": "Denmark",
+        "revenue": 63423.19,
+        "customers": 12,
+        "orders": 42,
+        "units": 234826.0,
+        "AOV": 1510.0759523809525,
+        "revenue_per_customer": 5285.265833333334,
+        "units_per_order": 5591.0952380952385,
+        "orders_per_customer": 3.5
+      },
+      {
+        "Country": "EIRE",
+        "revenue": 567785.75,
+        "customers": 3,
+        "orders": 523,
+        "units": 309324.0,
+        "AOV": 1085.6324091778204,
+        "revenue_per_customer": 189261.91666666666,
+        "units_per_order": 591.4416826003824,
+        "orders_per_customer": 174.33333333333334
+      },
+      {
+        "Country": "European Community",
+        "revenue": 1150.75,
+        "customers": 1,
+        "orders": 3,
+        "units": 488.0,
+        "AOV": 383.5833333333333,
+        "revenue_per_customer": 1150.75,
+        "units_per_order": 162.66666666666666,
+        "orders_per_customer": 3.0
+      },
+      {
+        "Country": "Finland",
+        "revenue": 25089.66,
+        "customers": 13,
+        "orders": 54,
+        "units": 14214.0,
+        "AOV": 464.62333333333333,
+        "revenue_per_customer": 1929.9738461538461,
+        "units_per_order": 263.22222222222223,
+        "orders_per_customer": 4.153846153846154
+      },
+      {
+        "Country": "France",
+        "revenue": 292779.69,
+        "customers": 93,
+        "orders": 587,
+        "units": 179503.0,
+        "AOV": 498.7728960817717,
+        "revenue_per_customer": 3148.1687096774194,
+        "units_per_order": 305.79727427597953,
+        "orders_per_customer": 6.311827956989247
+      },
+      {
+        "Country": "Germany",
+        "revenue": 375024.33,
+        "customers": 107,
+        "orders": 752,
+        "units": 219937.0,
+        "AOV": 498.70256648936174,
+        "revenue_per_customer": 3504.9002803738317,
+        "units_per_order": 292.469414893617,
+        "orders_per_customer": 7.02803738317757
+      },
+      {
+        "Country": "Greece",
+        "revenue": 18660.49,
+        "customers": 5,
+        "orders": 18,
+        "units": 7700.0,
+        "AOV": 1036.693888888889,
+        "revenue_per_customer": 3732.0980000000004,
+        "units_per_order": 427.77777777777777,
+        "orders_per_customer": 3.6
+      },
+      {
+        "Country": "Iceland",
+        "revenue": 4921.53,
+        "customers": 1,
+        "orders": 8,
+        "units": 2967.0,
+        "AOV": 615.19125,
+        "revenue_per_customer": 4921.53,
+        "units_per_order": 370.875,
+        "orders_per_customer": 8.0
+      },
+      {
+        "Country": "Israel",
+        "revenue": 10187.8,
+        "customers": 4,
+        "orders": 7,
+        "units": 5119.0,
+        "AOV": 1455.3999999999999,
+        "revenue_per_customer": 2546.95,
+        "units_per_order": 731.2857142857143,
+        "orders_per_customer": 1.75
+      },
+      {
+        "Country": "Italy",
+        "revenue": 28287.0,
+        "customers": 17,
+        "orders": 59,
+        "units": 15066.0,
+        "AOV": 479.4406779661017,
+        "revenue_per_customer": 1663.9411764705883,
+        "units_per_order": 255.35593220338984,
+        "orders_per_customer": 3.4705882352941178
+      },
+      {
+        "Country": "Japan",
+        "revenue": 40017.29,
+        "customers": 10,
+        "orders": 25,
+        "units": 30356.0,
+        "AOV": 1600.6916,
+        "revenue_per_customer": 4001.7290000000003,
+        "units_per_order": 1214.24,
+        "orders_per_customer": 2.5
+      },
+      {
+        "Country": "Korea",
+        "revenue": 949.82,
+        "customers": 1,
+        "orders": 1,
+        "units": 598.0,
+        "AOV": 949.82,
+        "revenue_per_customer": 949.82,
+        "units_per_order": 598.0,
+        "orders_per_customer": 1.0
+      },
+      {
+        "Country": "Lebanon",
+        "revenue": 1693.88,
+        "customers": 1,
+        "orders": 1,
+        "units": 386.0,
+        "AOV": 1693.88,
+        "revenue_per_customer": 1693.88,
+        "units_per_order": 386.0,
+        "orders_per_customer": 1.0
+      },
+      {
+        "Country": "Lithuania",
+        "revenue": 4892.68,
+        "customers": 1,
+        "orders": 6,
+        "units": 2306.0,
+        "AOV": 815.4466666666667,
+        "revenue_per_customer": 4892.68,
+        "units_per_order": 384.3333333333333,
+        "orders_per_customer": 6.0
+      },
+      {
+        "Country": "Malta",
+        "revenue": 4677.17,
+        "customers": 2,
+        "orders": 7,
+        "units": 2482.0,
+        "AOV": 668.1671428571428,
+        "revenue_per_customer": 2338.585,
+        "units_per_order": 354.57142857142856,
+        "orders_per_customer": 3.5
+      },
+      {
+        "Country": "Netherlands",
+        "revenue": 545777.98,
+        "customers": 22,
+        "orders": 215,
+        "units": 381461.0,
+        "AOV": 2538.5022325581394,
+        "revenue_per_customer": 24808.09,
+        "units_per_order": 1774.2372093023255,
+        "orders_per_customer": 9.772727272727273
+      },
+      {
+        "Country": "Nigeria",
+        "revenue": 112.57000000000001,
+        "customers": 1,
+        "orders": 1,
+        "units": 102.0,
+        "AOV": 112.57000000000001,
+        "revenue_per_customer": 112.57000000000001,
+        "units_per_order": 102.0,
+        "orders_per_customer": 1.0
+      },
+      {
+        "Country": "Norway",
+        "revenue": 38413.68,
+        "customers": 12,
+        "orders": 38,
+        "units": 23468.0,
+        "AOV": 1010.8863157894737,
+        "revenue_per_customer": 3201.14,
+        "units_per_order": 617.578947368421,
+        "orders_per_customer": 3.1666666666666665
+      },
+      {
+        "Country": "Poland",
+        "revenue": 9839.93,
+        "customers": 6,
+        "orders": 27,
+        "units": 5493.0,
+        "AOV": 364.4418518518519,
+        "revenue_per_customer": 1639.9883333333335,
+        "units_per_order": 203.44444444444446,
+        "orders_per_customer": 4.5
+      },
+      {
+        "Country": "Portugal",
+        "revenue": 46002.28,
+        "customers": 22,
+        "orders": 82,
+        "units": 26901.0,
+        "AOV": 561.0034146341463,
+        "revenue_per_customer": 2091.0127272727273,
+        "units_per_order": 328.0609756097561,
+        "orders_per_customer": 3.727272727272727
+      },
+      {
+        "Country": "RSA",
+        "revenue": 1933.74,
+        "customers": 2,
+        "orders": 2,
+        "units": 942.0,
+        "AOV": 966.87,
+        "revenue_per_customer": 966.87,
+        "units_per_order": 471.0,
+        "orders_per_customer": 1.0
+      },
+      {
+        "Country": "Saudi Arabia",
+        "revenue": 131.17,
+        "customers": 1,
+        "orders": 1,
+        "units": 75.0,
+        "AOV": 131.17,
+        "revenue_per_customer": 131.17,
+        "units_per_order": 75.0,
+        "orders_per_customer": 1.0
+      },
+      {
+        "Country": "Singapore",
+        "revenue": 13158.16,
+        "customers": 1,
+        "orders": 8,
+        "units": 6987.0,
+        "AOV": 1644.77,
+        "revenue_per_customer": 13158.16,
+        "units_per_order": 873.375,
+        "orders_per_customer": 8.0
+      },
+      {
+        "Country": "Spain",
+        "revenue": 84833.16,
+        "customers": 38,
+        "orders": 141,
+        "units": 44359.0,
+        "AOV": 601.6536170212767,
+        "revenue_per_customer": 2232.4515789473685,
+        "units_per_order": 314.60283687943263,
+        "orders_per_customer": 3.710526315789474
+      },
+      {
+        "Country": "Sweden",
+        "revenue": 84085.87,
+        "customers": 19,
+        "orders": 98,
+        "units": 87691.0,
+        "AOV": 858.0190816326531,
+        "revenue_per_customer": 4425.572105263158,
+        "units_per_order": 894.8061224489796,
+        "orders_per_customer": 5.157894736842105
+      },
+      {
+        "Country": "Switzerland",
+        "revenue": 92298.91,
+        "customers": 22,
+        "orders": 80,
+        "units": 51578.0,
+        "AOV": 1153.736375,
+        "revenue_per_customer": 4195.405,
+        "units_per_order": 644.725,
+        "orders_per_customer": 3.6363636363636362
+      },
+      {
+        "Country": "Thailand",
+        "revenue": 3070.54,
+        "customers": 1,
+        "orders": 2,
+        "units": 2552.0,
+        "AOV": 1535.27,
+        "revenue_per_customer": 3070.54,
+        "units_per_order": 1276.0,
+        "orders_per_customer": 2.0
+      },
+      {
+        "Country": "USA",
+        "revenue": 5839.69,
+        "customers": 5,
+        "orders": 13,
+        "units": 3695.0,
+        "AOV": 449.20692307692303,
+        "revenue_per_customer": 1167.9379999999999,
+        "units_per_order": 284.2307692307692,
+        "orders_per_customer": 2.6
+      },
+      {
+        "Country": "United Arab Emirates",
+        "revenue": 8766.210000000001,
+        "customers": 4,
+        "orders": 9,
+        "units": 5718.0,
+        "AOV": 974.0233333333334,
+        "revenue_per_customer": 2191.5525000000002,
+        "units_per_order": 635.3333333333334,
+        "orders_per_customer": 2.25
+      },
+      {
+        "Country": "United Kingdom",
+        "revenue": 13638806.43,
+        "customers": 5326,
+        "orders": 33121,
+        "units": 8191698.0,
+        "AOV": 411.787277859968,
+        "revenue_per_customer": 2560.797301915133,
+        "units_per_order": 247.32640922677456,
+        "orders_per_customer": 6.218738265114532
+      },
+      {
+        "Country": "Unspecified",
+        "revenue": 8597.15,
+        "customers": 6,
+        "orders": 16,
+        "units": 5101.0,
+        "AOV": 537.321875,
+        "revenue_per_customer": 1432.8583333333333,
+        "units_per_order": 318.8125,
+        "orders_per_customer": 2.6666666666666665
+      },
+      {
+        "Country": "West Indies",
+        "revenue": 536.41,
+        "customers": 1,
+        "orders": 1,
+        "units": 395.0,
+        "AOV": 536.41,
+        "revenue_per_customer": 536.41,
+        "units_per_order": 395.0,
+        "orders_per_customer": 1.0
+      }
+    ],
+    "top_exports": [
+      {
+        "Country": "EIRE",
+        "revenue": 567785.75,
+        "customers": 3,
+        "orders": 523,
+        "units": 309324.0,
+        "AOV": 1085.6324091778204,
+        "revenue_per_customer": 189261.91666666666,
+        "units_per_order": 591.4416826003824,
+        "orders_per_customer": 174.33333333333334
+      },
+      {
+        "Country": "Netherlands",
+        "revenue": 545777.98,
+        "customers": 22,
+        "orders": 215,
+        "units": 381461.0,
+        "AOV": 2538.5022325581394,
+        "revenue_per_customer": 24808.09,
+        "units_per_order": 1774.2372093023255,
+        "orders_per_customer": 9.772727272727273
+      },
+      {
+        "Country": "Germany",
+        "revenue": 375024.33,
+        "customers": 107,
+        "orders": 752,
+        "units": 219937.0,
+        "AOV": 498.70256648936174,
+        "revenue_per_customer": 3504.9002803738317,
+        "units_per_order": 292.469414893617,
+        "orders_per_customer": 7.02803738317757
+      },
+      {
+        "Country": "France",
+        "revenue": 292779.69,
+        "customers": 93,
+        "orders": 587,
+        "units": 179503.0,
+        "AOV": 498.7728960817717,
+        "revenue_per_customer": 3148.1687096774194,
+        "units_per_order": 305.79727427597953,
+        "orders_per_customer": 6.311827956989247
+      },
+      {
+        "Country": "Australia",
+        "revenue": 166528.5,
+        "customers": 15,
+        "orders": 86,
+        "units": 103174.0,
+        "AOV": 1936.3779069767443,
+        "revenue_per_customer": 11101.9,
+        "units_per_order": 1199.6976744186047,
+        "orders_per_customer": 5.733333333333333
+      },
+      {
+        "Country": "Switzerland",
+        "revenue": 92298.91,
+        "customers": 22,
+        "orders": 80,
+        "units": 51578.0,
+        "AOV": 1153.736375,
+        "revenue_per_customer": 4195.405,
+        "units_per_order": 644.725,
+        "orders_per_customer": 3.6363636363636362
+      },
+      {
+        "Country": "Spain",
+        "revenue": 84833.16,
+        "customers": 38,
+        "orders": 141,
+        "units": 44359.0,
+        "AOV": 601.6536170212767,
+        "revenue_per_customer": 2232.4515789473685,
+        "units_per_order": 314.60283687943263,
+        "orders_per_customer": 3.710526315789474
+      },
+      {
+        "Country": "Sweden",
+        "revenue": 84085.87,
+        "customers": 19,
+        "orders": 98,
+        "units": 87691.0,
+        "AOV": 858.0190816326531,
+        "revenue_per_customer": 4425.572105263158,
+        "units_per_order": 894.8061224489796,
+        "orders_per_customer": 5.157894736842105
+      },
+      {
+        "Country": "Denmark",
+        "revenue": 63423.19,
+        "customers": 12,
+        "orders": 42,
+        "units": 234826.0,
+        "AOV": 1510.0759523809525,
+        "revenue_per_customer": 5285.265833333334,
+        "units_per_order": 5591.0952380952385,
+        "orders_per_customer": 3.5
+      },
+      {
+        "Country": "Belgium",
+        "revenue": 56608.97,
+        "customers": 29,
+        "orders": 143,
+        "units": 34189.0,
+        "AOV": 395.86692307692306,
+        "revenue_per_customer": 1952.0334482758622,
+        "units_per_order": 239.08391608391608,
+        "orders_per_customer": 4.931034482758621
+      }
+    ],
+    "leader": "EIRE",
+    "leader_revenue": 567785.75,
+    "leader_customers": 3.0,
+    "leader_AOV": 1085.6324091778204,
+    "leader_units_per_order": 591.4416826003824,
+    "highest_AOV": "Netherlands",
+    "highest_AOV_value": 2538.5022325581394,
+    "highest_AOV_customers": 22,
+    "highest_AOV_units_per_order": 1774.2372093023255,
+    "UK_AOV": 411.787277859968,
+    "UK_units_per_order": 247.32640922677456
+  },
+  "cancellations_monthly": {
+    "rows": [
+      {
+        "Month": "2009-12-01 00:00:00",
+        "cancelled": 372,
+        "purchase": 1497,
+        "rate": 0.19903691813804172
+      },
+      {
+        "Month": "2010-01-01 00:00:00",
+        "cancelled": 231,
+        "purchase": 959,
+        "rate": 0.19411764705882353
+      },
+      {
+        "Month": "2010-02-01 00:00:00",
+        "cancelled": 213,
+        "purchase": 1093,
+        "rate": 0.16309341500765698
+      },
+      {
+        "Month": "2010-03-01 00:00:00",
+        "cancelled": 345,
+        "purchase": 1509,
+        "rate": 0.18608414239482202
+      },
+      {
+        "Month": "2010-04-01 00:00:00",
+        "cancelled": 258,
+        "purchase": 1315,
+        "rate": 0.16401780038143673
+      },
+      {
+        "Month": "2010-05-01 00:00:00",
+        "cancelled": 379,
+        "purchase": 1365,
+        "rate": 0.21731651376146788
+      },
+      {
+        "Month": "2010-06-01 00:00:00",
+        "cancelled": 310,
+        "purchase": 1479,
+        "rate": 0.1732811626607043
+      },
+      {
+        "Month": "2010-07-01 00:00:00",
+        "cancelled": 309,
+        "purchase": 1362,
+        "rate": 0.18491921005385997
+      },
+      {
+        "Month": "2010-08-01 00:00:00",
+        "cancelled": 233,
+        "purchase": 1276,
+        "rate": 0.15440689198144467
+      },
+      {
+        "Month": "2010-09-01 00:00:00",
+        "cancelled": 316,
+        "purchase": 1659,
+        "rate": 0.16
+      },
+      {
+        "Month": "2010-10-01 00:00:00",
+        "cancelled": 398,
+        "purchase": 2108,
+        "rate": 0.15881883479648842
+      },
+      {
+        "Month": "2010-11-01 00:00:00",
+        "cancelled": 535,
+        "purchase": 2570,
+        "rate": 0.1723027375201288
+      },
+      {
+        "Month": "2010-12-01 00:00:00",
+        "cancelled": 297,
+        "purchase": 1394,
+        "rate": 0.17563571850975754
+      },
+      {
+        "Month": "2011-01-01 00:00:00",
+        "cancelled": 242,
+        "purchase": 983,
+        "rate": 0.19755102040816327
+      },
+      {
+        "Month": "2011-02-01 00:00:00",
+        "cancelled": 188,
+        "purchase": 992,
+        "rate": 0.15932203389830507
+      },
+      {
+        "Month": "2011-03-01 00:00:00",
+        "cancelled": 276,
+        "purchase": 1312,
+        "rate": 0.17380352644836272
+      },
+      {
+        "Month": "2011-04-01 00:00:00",
+        "cancelled": 219,
+        "purchase": 1139,
+        "rate": 0.16126656848306334
+      },
+      {
+        "Month": "2011-05-01 00:00:00",
+        "cancelled": 264,
+        "purchase": 1544,
+        "rate": 0.14601769911504425
+      },
+      {
+        "Month": "2011-06-01 00:00:00",
+        "cancelled": 296,
+        "purchase": 1390,
+        "rate": 0.17556346381969157
+      },
+      {
+        "Month": "2011-07-01 00:00:00",
+        "cancelled": 234,
+        "purchase": 1321,
+        "rate": 0.1504823151125402
+      },
+      {
+        "Month": "2011-08-01 00:00:00",
+        "cancelled": 237,
+        "purchase": 1267,
+        "rate": 0.15757978723404256
+      },
+      {
+        "Month": "2011-09-01 00:00:00",
+        "cancelled": 298,
+        "purchase": 1739,
+        "rate": 0.14629356897398135
+      },
+      {
+        "Month": "2011-10-01 00:00:00",
+        "cancelled": 305,
+        "purchase": 1903,
+        "rate": 0.1381340579710145
+      },
+      {
+        "Month": "2011-11-01 00:00:00",
+        "cancelled": 391,
+        "purchase": 2642,
+        "rate": 0.12891526541378173
+      },
+      {
+        "Month": "2011-12-01 00:00:00",
+        "cancelled": 136,
+        "purchase": 776,
+        "rate": 0.14912280701754385
+      }
+    ],
+    "q4_mean": 0.1621405887248688,
+    "rest_mean": 0.17028426482185613,
+    "definition": "Distinct identified-customer cancellation invoices divided by distinct identified-customer cancellation plus valid identified-customer gross purchase invoices; merchandise codes only. Same invoice ratio as the customer profiling feature."
+  },
+  "features": {
+    "all": [
+      "Recency",
+      "Frequency",
+      "Monetary",
+      "AOV",
+      "Variety",
+      "CancellationRate"
+    ],
+    "rfm": [
+      "Recency",
+      "Frequency",
+      "Monetary"
+    ],
+    "extended": [
+      "Recency",
+      "Frequency",
+      "Monetary",
+      "Variety"
+    ],
+    "snapshot": "2011-12-10 12:50:00",
+    "skew": {
+      "Recency": {
+        "before": 0.8934387462030419,
+        "after": -0.4864219796333479
+      },
+      "Frequency": {
+        "before": 11.98093206544755,
+        "after": 1.0051251129847905
+      },
+      "Monetary": {
+        "before": 26.872129757707512,
+        "after": 0.24169112017636576
+      },
+      "AOV": {
+        "before": 12.369574489439941,
+        "after": -0.1279023716577828
+      },
+      "Variety": {
+        "before": 6.178915135462926,
+        "after": -0.2583105847313846
+      },
+      "CancellationRate": {
+        "before": 1.3159776306500985,
+        "after": 1.1418644176889245
+      }
+    },
+    "cancellation_zero_share": 0.5876006165439287,
+    "cancellation_decision": "Retained for profiling, excluded from clustering: zero inflation and limited log-transform change. AOV also profiles only: it is exactly Monetary divided by Frequency.",
+    "customer_count": 5839,
+    "correlation": {
+      "Recency": {
+        "Recency": 1.0,
+        "Frequency": -0.2596387843936331,
+        "Monetary": -0.12459871494391579,
+        "AOV": -0.05268504503636786,
+        "Variety": -0.32223326133442687,
+        "CancellationRate": -0.07272682226260534
+      },
+      "Frequency": {
+        "Recency": -0.2596387843936331,
+        "Frequency": 1.0,
+        "Monetary": 0.6242221270117263,
+        "AOV": 0.09686898850732913,
+        "Variety": 0.6916212844280396,
+        "CancellationRate": 0.09211020490106495
+      },
+      "Monetary": {
+        "Recency": -0.12459871494391579,
+        "Frequency": 0.6242221270117263,
+        "Monetary": 1.0,
+        "AOV": 0.31744646005972277,
+        "Variety": 0.4093904738028514,
+        "CancellationRate": 0.044496931152651464
+      },
+      "AOV": {
+        "Recency": -0.05268504503636786,
+        "Frequency": 0.09686898850732913,
+        "Monetary": 0.31744646005972277,
+        "AOV": 1.0,
+        "Variety": 0.16218408397412418,
+        "CancellationRate": 0.10381732407190143
+      },
+      "Variety": {
+        "Recency": -0.32223326133442687,
+        "Frequency": 0.6916212844280396,
+        "Monetary": 0.4093904738028514,
+        "AOV": 0.16218408397412418,
+        "Variety": 1.0,
+        "CancellationRate": 0.12005339232265866
+      },
+      "CancellationRate": {
+        "Recency": -0.07272682226260534,
+        "Frequency": 0.09211020490106495,
+        "Monetary": 0.044496931152651464,
+        "AOV": 0.10381732407190143,
+        "Variety": 0.12005339232265866,
+        "CancellationRate": 1.0
+      }
+    },
+    "skew_improved": [
+      "Recency",
+      "Frequency",
+      "Monetary",
+      "AOV",
+      "Variety",
+      "CancellationRate"
+    ]
+  },
+  "outliers": {
+    "rule": "Upper Tukey fence on log1p net customer Monetary; descriptive high-value group, not confirmed wholesale.",
+    "q1_log": 5.816560244499053,
+    "q3_log": 7.687547929159495,
+    "iqr_multiplier": 1.5,
+    "fence_log": 10.494029456150157,
+    "threshold_GBP": 36098.32536333745,
+    "customers": 40,
+    "revenue": 4500289.09,
+    "revenue_share": 0.27543944918195024
+  },
+  "model": {
+    "features": [
+      "Recency",
+      "Frequency",
+      "Monetary"
+    ],
+    "feature_set": "rfm",
+    "k": 2,
+    "silhouette": 0.43779731113567133,
+    "davies_bouldin": 0.8731641386443869,
+    "inertia": 8375.485491834163,
+    "stability_ARI": 0.9994476229941907,
+    "stability_seeds": 10,
+    "stability_pairs": 45,
+    "selection_table": [
+      {
+        "feature_set": "rfm",
+        "k": 2,
+        "inertia": 8375.485491834163,
+        "silhouette": 0.43779731113567133,
+        "davies_bouldin": 0.8731641386443869,
+        "stability_ARI": 0.9994476229941907
+      },
+      {
+        "feature_set": "rfm",
+        "k": 3,
+        "inertia": 6189.883767138774,
+        "silhouette": 0.34604390890714365,
+        "davies_bouldin": 1.0464006672600317,
+        "stability_ARI": 0.9878413973704986
+      },
+      {
+        "feature_set": "rfm",
+        "k": 4,
+        "inertia": 4734.966316565157,
+        "silhouette": 0.3678680827649322,
+        "davies_bouldin": 0.927839454799473,
+        "stability_ARI": 0.98899929034885
+      },
+      {
+        "feature_set": "rfm",
+        "k": 5,
+        "inertia": 4009.0494784422135,
+        "silhouette": 0.3340928433374516,
+        "davies_bouldin": 0.9747328809581326,
+        "stability_ARI": 0.9192607209602078
+      },
+      {
+        "feature_set": "rfm",
+        "k": 6,
+        "inertia": 3449.846623202359,
+        "silhouette": 0.33482263205821594,
+        "davies_bouldin": 0.952225749106328,
+        "stability_ARI": 0.983624648317554
+      },
+      {
+        "feature_set": "rfm",
+        "k": 7,
+        "inertia": 3090.7235626806173,
+        "silhouette": 0.2973374589500105,
+        "davies_bouldin": 0.9756750490709798,
+        "stability_ARI": 0.9352269839683752
+      },
+      {
+        "feature_set": "rfm",
+        "k": 8,
+        "inertia": 2801.1715069424304,
+        "silhouette": 0.29736097458555927,
+        "davies_bouldin": 0.9907162289464779,
+        "stability_ARI": 0.9539270759667943
+      },
+      {
+        "feature_set": "rfm",
+        "k": 9,
+        "inertia": 2571.8286364603823,
+        "silhouette": 0.29519964586684244,
+        "davies_bouldin": 0.9976862536994963,
+        "stability_ARI": 0.9582321930878088
+      },
+      {
+        "feature_set": "rfm",
+        "k": 10,
+        "inertia": 2387.874781390222,
+        "silhouette": 0.2832615010616115,
+        "davies_bouldin": 1.0111645185945046,
+        "stability_ARI": 0.978535801986503
+      },
+      {
+        "feature_set": "extended",
+        "k": 2,
+        "inertia": 11707.609811188759,
+        "silhouette": 0.408619254345498,
+        "davies_bouldin": 0.925038216496712,
+        "stability_ARI": 0.9990651405933441
+      },
+      {
+        "feature_set": "extended",
+        "k": 3,
+        "inertia": 8870.544003483341,
+        "silhouette": 0.313669127493775,
+        "davies_bouldin": 1.1040026130622296,
+        "stability_ARI": 0.9928091223211999
+      },
+      {
+        "feature_set": "extended",
+        "k": 4,
+        "inertia": 7391.19627364398,
+        "silhouette": 0.3116976116490506,
+        "davies_bouldin": 1.1024818723217606,
+        "stability_ARI": 0.990252823862666
+      },
+      {
+        "feature_set": "extended",
+        "k": 5,
+        "inertia": 6432.471112219595,
+        "silhouette": 0.2664640060909603,
+        "davies_bouldin": 1.1243714596069825,
+        "stability_ARI": 0.9856341350692257
+      },
+      {
+        "feature_set": "extended",
+        "k": 6,
+        "inertia": 5772.3940126508905,
+        "silhouette": 0.26003408875882117,
+        "davies_bouldin": 1.1374141651582985,
+        "stability_ARI": 0.8351457785123744
+      },
+      {
+        "feature_set": "extended",
+        "k": 7,
+        "inertia": 5189.490504246677,
+        "silhouette": 0.2572460682145145,
+        "davies_bouldin": 1.1143855988131464,
+        "stability_ARI": 0.9608998026481134
+      },
+      {
+        "feature_set": "extended",
+        "k": 8,
+        "inertia": 4859.4311710107195,
+        "silhouette": 0.24456303000855606,
+        "davies_bouldin": 1.1649147614606097,
+        "stability_ARI": 0.8224801810456289
+      },
+      {
+        "feature_set": "extended",
+        "k": 9,
+        "inertia": 4567.555570899078,
+        "silhouette": 0.2513774572430037,
+        "davies_bouldin": 1.1499029432645242,
+        "stability_ARI": 0.8653579463514244
+      },
+      {
+        "feature_set": "extended",
+        "k": 10,
+        "inertia": 4279.692892894236,
+        "silhouette": 0.24171196879570717,
+        "davies_bouldin": 1.1327278849985374,
+        "stability_ARI": 0.9213344009376409
+      }
+    ],
+    "seed": 42,
+    "n_init": 10,
+    "selection_rule": "Choose the highest full-sample silhouette across feature sets and candidate k; exact ties use higher stability, lower Davies-Bouldin and lower k. Stability varies initialisation, not customers or time.",
+    "id_rule": "Pipeline cluster centres reordered by mean raw net Monetary, descending.",
+    "pca_variance": [
+      0.7573115486332272,
+      0.19098092946510756
+    ]
+  },
+  "model_test": {
+    "inputs": {
+      "Recency": 96.0,
+      "Frequency": 3.0,
+      "Monetary": 837.0,
+      "AOV": 279.0,
+      "Variety": 44.0,
+      "CancellationRate": 0.0
+    },
+    "feature_columns": [
+      "Recency",
+      "Frequency",
+      "Monetary"
+    ],
+    "label": "1",
+    "origin": "Synthetic combination of rounded non-outlier marginal medians; AOV recomputed exactly as Monetary/Frequency.",
+    "segment_name": "Dormant occasional buyers"
+  },
+  "segments": {
+    "0": {
+      "size": 2347,
+      "customer_share": 0.4019523891077239,
+      "revenue": 9860691.3,
+      "revenue_share": 0.6035219795680391,
+      "recency_mean": 53.68129527055816,
+      "recency_median": 25.0,
+      "frequency_mean": 10.855134213890073,
+      "frequency_median": 8.0,
+      "monetary_mean": 4201.402343417129,
+      "monetary_median": 2610.28,
+      "aov_mean": 411.6221891873087,
+      "aov_median": 326.3784615384615,
+      "variety_mean": 143.83851725607158,
+      "variety_median": 111.0,
+      "cancellationrate_mean": 0.13986602876145665,
+      "cancellationrate_median": 0.125,
+      "tags": {
+        "recency": "low",
+        "frequency": "high",
+        "monetary": "high"
+      },
+      "name": "Loyal champions",
+      "action": "Offer early access to relevant products and test a replenishment reminder against a holdout group."
+    },
+    "1": {
+      "size": 3452,
+      "customer_share": 0.5911971227949991,
+      "revenue": 1977598.21,
+      "revenue_share": 0.12103857125001069,
+      "recency_mean": 302.05938586326766,
+      "recency_median": 297.0,
+      "frequency_mean": 2.0307068366164542,
+      "frequency_median": 2.0,
+      "monetary_mean": 572.8847653534183,
+      "monetary_median": 393.82,
+      "aov_mean": 307.15673042887494,
+      "aov_median": 228.1,
+      "variety_mean": 34.57589803012746,
+      "variety_median": 25.0,
+      "cancellationrate_mean": 0.09011342317396778,
+      "cancellationrate_median": 0.0,
+      "tags": {
+        "recency": "high",
+        "frequency": "low",
+        "monetary": "low"
+      },
+      "name": "Dormant occasional buyers",
+      "action": "Test a low-cost reminder using their last product category before committing a wider recovery budget."
+    },
+    "Outlier-Wholesale": {
+      "size": 40,
+      "customer_share": 0.006850488097276931,
+      "revenue": 4500289.09,
+      "revenue_share": 0.27543944918195024,
+      "recency_mean": 32.225,
+      "recency_median": 4.0,
+      "frequency_mean": 95.725,
+      "frequency_median": 65.0,
+      "monetary_mean": 112507.22725,
+      "monetary_median": 61911.35,
+      "aov_mean": 1585.2329900152024,
+      "aov_median": 977.5583801002147,
+      "variety_mean": 523.975,
+      "variety_median": 249.0,
+      "cancellationrate_mean": 0.14636035596275176,
+      "cancellationrate_median": 0.14174107142857142,
+      "tags": {
+        "recency": "low",
+        "frequency": "high",
+        "monetary": "high"
+      },
+      "name": "Outlier-Wholesale",
+      "action": "Review major accounts individually, confirm buyer needs and set stock reservations against their observed repeat orders."
+    }
+  },
+  "tag_boundaries": {
+    "recency": [
+      41.0,
+      264.0
+    ],
+    "frequency": [
+      2.0,
+      5.0
+    ],
+    "monetary": [
+      451.56,
+      1539.83
+    ]
+  },
+  "limitations": {
+    "missing_id": {
+      "rows": 226761,
+      "revenue": 2575278.9,
+      "purchase_revenue_share": 0.13109840365491232,
+      "purchase_rows_share": 0.22600613949408974
+    },
+    "unmatched_unit_share": 0.03782451324349691,
+    "facts": [
+      "No browsing events, marketing spend, margins, acquisition dates or return reasons supplied.",
+      "Observed cancellations are invoice events, not a complete physical-return rate.",
+      "Single UK retailer; historical window and incomplete final month limit generalisation.",
+      "Customer/product LIFO is an allocation assumption, not an invoice-linked return record; prices may differ.",
+      "Net sales retrospectively attribute matched returns to original purchase months; unmatched returns are not deducted from unrelated sales.",
+      "K-Means assumes Euclidean compact groups after transformation; clusters may overlap and are descriptive.",
+      "RFM is backward-looking; correlations and segment associations are not causal effects.",
+      "Outlier-Wholesale is a requested operational label; buyer type is not observed.",
+      "Initialisation stability is not temporal or resampling stability; there is no predictive holdout target.",
+      "Actions are hypotheses for controlled tests; no uplift or profit claims are made."
+    ]
+  },
+  "notebook": {
+    "executed": true,
+    "code_cells": 8,
+    "comparison": "Regression, missing IDs, EDA findings, outliers, feature diagnostics, every model selection metric, model test and segment profiles identical to command-line run.",
+    "exact_delivered_source_reexecuted": true,
+    "figure_bytes_identical_after_reexecution": true
+  },
+  "environment": {
+    "pandas": "3.0.6",
+    "numpy": "2.5.4",
+    "scikit-learn": "1.9.1",
+    "matplotlib": "3.11.2",
+    "seaborn": "0.13.2",
+    "joblib": "1.6.0",
+    "pyarrow": "26.0.0",
+    "nbformat": "5.11.1",
+    "nbconvert": "7.17.2",
+    "ipykernel": "7.4.0",
+    "reportlab": "5.0.1",
+    "openpyxl": "3.1.5",
+    "pytest": "9.1.1",
+    "pypdf": "6.20.1",
+    "python-calamine": "0.8.3"
+  },
+  "references": {
+    "uci_year": 2019,
+    "sklearn_year": 2011,
+    "journal_volume": 12,
+    "page_first": 2825,
+    "page_last": 2830
+  },
+  "report": {
+    "word_count_excluding_cover_references_page_furniture": 2480,
+    "pages": 20,
+    "rendered_pages": 20,
+    "page_numbers": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+    ],
+    "count_policy": "All section prose, headings, table cells and accessible figure captions; excludes cover, bibliography and repeated page furniture.",
+    "visual_inspection": "Rendered pages inspected in this session; current PDF digest matches review record.",
+    "visual_review_verified": true
+  },
+  "rebuild": {
+    "clean_generated_directories": true,
+    "all_prior_stages_ran": true,
+    "method": "Source workbook re-read; generated directories archived outside active paths before clean rebuild."
+  },
+  "runtime_notes": [
+    "Windows notebook execution emitted a Proactor/ZeroMQ warning: Tornado registered a selector thread because add_reader is unavailable on that event loop. The fallback completed successfully; no notebook cell has an error output.",
+    "The local notebook kernel emitted a plain-TCP transport warning. This concerns notebook transport, not a statistical validation result; the notebook is not being deployed as a remote service."
+  ],
+  "demo": {
+    "script_words": 681,
+    "recorded": false,
+    "format": "Only spoken text; single presenter, first-person plural, separate paragraphs."
+  },
+  "verification": {
+    "numeric_tokens_checked": {
+      "report": 219,
+      "script": 35,
+      "README.md": 30,
+      "docs\\requirements_checklist.md": 13,
+      "PROGRESS.md": 0,
+      "outputs\\docs\\Assumptions_and_Limitations.md": 10,
+      "outputs\\docs\\Dataset_Source_Documentation.md": 75,
+      "outputs\\docs\\requirements_checklist.md": 13,
+      "outputs\\docs\\Verification.md": 4
+    },
+    "report_words": 2480,
+    "script_words": 681,
+    "figures": {
+      "fig1_monthly_revenue": true,
+      "fig2_products": true,
+      "fig3_countries": true,
+      "fig4_cancellations": true,
+      "feature_correlations": true,
+      "fig5_transformations": true,
+      "fig6_selection": true,
+      "fig7_pca": true,
+      "fig8_profiles": true
+    },
+    "notebook_executed": true,
+    "syntax_complete": true,
+    "feature_agreement": true,
+    "segment_names_and_actions_agree": true,
+    "cancellation_conservation": true,
+    "clean_rebuild": true,
+    "tests_passed": 7,
+    "visual_review_verified": true
+  }
+}
